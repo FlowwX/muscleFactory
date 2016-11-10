@@ -25,68 +25,86 @@ WEIGHTS GET_WEIGHTS(int value ){
 	int result;
 	int modulo;
 	int weight;
+	int sum;
 
-	weight = value;
+	
 
-	output.five_kg = 0;
-	output.three_kg = 0;
-	output.two_kg = 0;
 
-	depot_clone = depot;
 
-	int i;
-	for (i = 0; i < 3; i++)
-	{
-		if(i==0){
-			slot = &depot_clone.five_kg;
-			slotWeight=5;
-			mySlot = &output.five_kg;
+	
+
+	int k;
+	while(k<3 && sum!=value){
+
+		output.five_kg = 0;
+		output.three_kg = 0;
+		output.two_kg = 0;
+
+		weight = value;
+		depot_clone = depot;
+
+		if(k==1){
+			depot_clone.five_kg=0;
 		}
 
-		if(i==1){
-			slot = &depot_clone.three_kg;
-			slotWeight=3;
-			mySlot = &output.three_kg;
+		if(k==2){
+			depot_clone.five_kg=0;
+			depot_clone.three_kg=0;
 		}
 
-		if(i==2){
-			slot = &depot_clone.two_kg;
-			slotWeight=2;
-			mySlot = &output.two_kg;
-		}
+		int i;
+		for (i = 0; i < 3; i++)
+		{
+			if(i==0){
+				slot = &depot_clone.five_kg;
+				slotWeight=5;
+				mySlot = &output.five_kg;
+			}
 
-		if(*slot!=0){
+			if(i==1){
+				slot = &depot_clone.three_kg;
+				slotWeight=3;
+				mySlot = &output.three_kg;
+			}
 
-			result = weight/slotWeight;
+			if(i==2){
+				slot = &depot_clone.two_kg;
+				slotWeight=2;
+				mySlot = &output.two_kg;
+			}
 
-			while(result>=1){
+			if(*slot!=0){
 
-				modulo = weight%slotWeight;
+				result = weight/slotWeight;
 
-				if(result!=0 && weight-slotWeight*result!=1 
-					&& weight>=slotWeight && *slot-result>=0){
+				while(result>=1){
 
-					*mySlot = result;
-					*slot = *slot-result;
-				
-					if(modulo!=0){
-						weight = weight-slotWeight*result;
-					} 
-					else{
-						//finish
-						weight=0;
-						break;
+					modulo = weight%slotWeight;
+
+					if(result!=0 && weight-slotWeight*result!=1 
+						&& weight>=slotWeight && *slot-result>=0){
+
+						*mySlot = result;
+						*slot = *slot-result;
+					
+						if(modulo!=0){
+							weight = weight-slotWeight*result;
+						} 
+						else{
+							//finish
+							weight=0;
+							sum = output.five_kg*5+output.three_kg*3+output.two_kg*2;
+							break;
+						}
 					}
-				}
-				else{
-					result--;
+					else{
+						result--;
+					}
 				}
 			}
 		}
+		k++;
 	}
-
-	//check if the result is valid
-	int sum = output.five_kg*5+output.three_kg*3+output.two_kg*2;
 
 	if(sum==value){
 		depot = depot_clone;
@@ -127,7 +145,7 @@ int main() {
    depot.three_kg = 4;
    depot.five_kg = 5;
 
-   // WEIGHTS myWeights = GET_WEIGHTS(6);
+   // WEIGHTS myWeights = GET_WEIGHTS(12);
 
    // printf("philosoph: (%d, %d, %d)\n", myWeights.five_kg, myWeights.three_kg, myWeights.two_kg);
    // printf("depot: (%d, %d, %d)\n\n", depot.five_kg, depot.three_kg, depot.two_kg);
