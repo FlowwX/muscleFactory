@@ -257,26 +257,3 @@ int GET_WEIGHTS(PHILOSOPH* p ){
 // 	return output;
 // }
 
-/*
-WEIGHTS calculate_weights(int value ){
-
-	
-		WEIGHTS myWeights;
-
-		pthread_mutex_lock (&mutex);
-		myWeights = calculate_weights( value );
-		int amount = myWeights.five_kg+myWeights.three_kg+myWeights.two_kg;
-
-			while(amount==0){
-				pthread_cond_wait(&condition, &mutex);
-
-				myWeights = calculate_weights( value );
-				amount = myWeights.five_kg+myWeights.three_kg+myWeights.two_kg;
-			}
-
-		pthread_cond_signal(&condition);
-		pthread_mutex_unlock (&mutex);
-
-		return myWeights;
-}*/
-

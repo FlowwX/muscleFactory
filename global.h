@@ -25,13 +25,12 @@ struct philo
 typedef struct philo PHILOSOPH;
 
 //Globale Variablen
-int philo_zaehler;
+
 WEIGHTS depot;
 char command[5];
 pthread_mutex_t mutex;
 pthread_cond_t condition;
 PHILOSOPH philos[5];
-int weights_avialable;
 
 void get__status();
 int getThreadId();
