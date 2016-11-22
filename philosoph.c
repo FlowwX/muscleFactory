@@ -23,9 +23,11 @@ void* philosoph(void* value) {
 
 		//enter critical region
 		pthread_mutex_lock(&mutex);
+		
 		strcpy(p->status, "G");
 		strcpy(p->mode, "b");
 		get__status();
+
 		while(!GET_WEIGHTS( p )){
 			pthread_cond_wait(&condition, &mutex);
 		}
@@ -89,6 +91,7 @@ void rest(PHILOSOPH *p){
 			if(id>=-1){
 				if(id==p->id){
 					pid=id;
+					strcpy(command, "-");
 					break;
 				}
 			}
