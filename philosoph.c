@@ -11,6 +11,7 @@
 void workout(PHILOSOPH *p);
 void rest(PHILOSOPH *p);
 void read_input(PHILOSOPH *p);
+void critical_section(void);
 
 
 
@@ -21,30 +22,24 @@ void* philosoph(void* value) {
 
 	while(strcmp(command, "q") != 0){
 
-		//enter critical region
-		pthread_mutex_lock(&mutex);
+		//get weights
 		strcpy(p->status, "G");
 		strcpy(p->mode, "b");
 		get__status();
-		while(!GET_WEIGHTS( p )){
-			pthread_cond_wait(&condition, &mutex);
-		}
+		critical_section();
 		strcpy(p->mode, "n");
-		pthread_mutex_unlock(&mutex);
 
-
+		//workout
 		strcpy(p->status, "W");
 		get__status();
 		workout(p);
-
-		pthread_cond_signal(&condition);
 		
-		//leave critical region	
-
+		//put weights
 		strcpy(p->status, "P");
 		get__status();
 		PUT_WEIGHTS(p);
 
+		//rest
 		strcpy(p->status, "R");
 		get__status();
 		rest(p);
@@ -55,6 +50,16 @@ void* philosoph(void* value) {
 	pthread_exit(NULL);
 
    return NULL;
+}
+
+void critical_section(){
+	pthread_mutex_lock(&mutex);
+	
+	while(!GET_WEIGHTS( p )){
+		pthread_cond_wait(&condition, &mutex);
+	}
+
+	pthread_mutex_unlock(&mutex);	
 }
 
 void workout(PHILOSOPH *p){
@@ -76,6 +81,7 @@ void workout(PHILOSOPH *p){
 	if(pid!=-1){
 			printf("(%d)jump to end of workout\n", pid);
 	}
+	pthread_cond_signal(&condition);
 }
 
 void rest(PHILOSOPH *p){
