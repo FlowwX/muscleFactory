@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-#define REST_LOOP 1000000000
+#define REST_LOOP 10000000
 #define WORKOUT_LOOP 50000000
 
 //Strukturen & Typdefinitionen

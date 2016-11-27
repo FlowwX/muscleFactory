@@ -27,6 +27,7 @@ void* philosoph(void* value) {
 		strcpy(p->mode, "b");
 		get__status();
 		critical_section();
+
 		strcpy(p->mode, "n");
 
 		//workout
@@ -95,6 +96,7 @@ void rest(PHILOSOPH *p){
 			if(id>=-1){
 				if(id==p->id){
 					pid=id;
+					strcpy(command, "-");
 					break;
 				}
 			}

@@ -6,7 +6,7 @@ EXE = muscleFactory
 
 CC = /usr/bin/gcc
 
-FOLDER = -I/media/sf_BS_Praktikum/bsp2/muscleFactory/muscleFactory
+FOLDER = -I/home/bsp2/muscleFactory 
 
 CFLAG  = -pthread
 CFLAG += -g
@@ -14,7 +14,9 @@ CFLAG += -Wall
 
 LDFLAG = -lpthread
 
-SRC = main.c philosoph.o muscleFactory.o global.h philosoph.h
+HEADER = global.h philosoph.h
+SRC    = main.c philosoph.c muscleFactory.c
+OBJ    = $(SRC:%.c=%.o) 
 
 # targets (all is the default, because its on top.)
 
@@ -23,13 +25,10 @@ all: $(EXE)
 run: $(EXE)
 	./$(EXE)
 
-$(EXE): $(SRC)
+$(EXE): $(OBJ) $(HEADER)
 	$(CC) $(FOLDER) $(CFLAG) $(LDFLAG) -o $@ $^
 
-philosoph.o: philosoph.c
-	$(CC) -c $(FOLDER) $(CFLAG) $(LDFLAG) -o $@ $^
-
-muscleFactory.o: muscleFactory.c
+%.o: %.c
 	$(CC) -c $(FOLDER) $(CFLAG) $(LDFLAG) -o $@ $^
 
 clean:

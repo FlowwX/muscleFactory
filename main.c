@@ -63,6 +63,12 @@ int main() {
  		
  		if(strcmp(command, "q") == 0 ){
  			run = 0;
+			//unblock all semaphores
+			int i;
+			for(i=0; i<5; i++)
+			{
+				sem_post(philos[i].sem);
+			}
  		}
 
 		if(strstr(command, "u" )){
@@ -106,7 +112,7 @@ void get__status(){
 
 int getThreadId(){
 	char * cp = &command;
-	cp+=1;
+
 	if(isdigit(*cp)){
 		return (int) strtol(cp, &cp, 10);
 	}
